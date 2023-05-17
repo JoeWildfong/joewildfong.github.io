@@ -1,14 +1,24 @@
 @use "colors";
 
+body, html {
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 #header-bar {
     width: 100%;
     display: flex;
+    border-bottom: 1px solid var(--header-bar-border);
+    background-color: var(--header-bar-background)
 }
 
 .header-bar-item {
     padding: 1rem;
     transition: background-color .2s ease;
-    background-color: var(--header-bar-background)
+    background-color: var(--header-bar-background);
+    color: var(--header-bar-link-color);
+    font-family: var(--font-family);
 }
 
 .header-bar-item:hover {
