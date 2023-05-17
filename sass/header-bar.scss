@@ -1,0 +1,16 @@
+@use "colors";
+
+#header-bar {
+    width: 100%;
+    display: flex;
+}
+
+.header-bar-item {
+    padding: 1rem;
+    transition: background-color .2s ease;
+    background-color: var(--header-bar-background)
+}
+
+.header-bar-item:hover {
+    background-color: var(--header-bar-background-hover)
+}
