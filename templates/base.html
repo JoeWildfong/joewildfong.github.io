@@ -1,3 +1,4 @@
+{% import "macros.html" as macros %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,6 +11,14 @@
     {% block head %}{% endblock %}
   </head>
   <body>
+    <nav id="header-bar">
+      {{ macros::header_bar_item(title="Home", permalink="/")}}
+      {% set base_section = get_section(path="_index.md") %}
+      {% for section_path in base_section.subsections %}
+      {% set nav_section = get_section(path=section_path) %}
+      {{ macros::header_bar_item(title=nav_section.title, permalink=nav_section.permalink) }}
+      {% endfor %}
+    </nav>
     <main>
         {% block main %}{% endblock %}
     </main>
