@@ -10,9 +10,26 @@ jobs:
     name: Publish site
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout main
+    - name: Checkout main + submodules
       uses: actions/checkout@v3.0.0
-    - name: Build and deploy
+      with:
+        submodules: true
+    - name: Setup mdbook
+      uses: peaceiris/actions-mdbook@v1
+      with:
+        mdbook-version: 'latest'
+    - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+    - run: cargo install mdbook-mermaid
+    - name: Build zola
       uses: shalzz/zola-deploy-action@v0.17.2
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BUILD_ONLY: true
+    - name: Build mdbook
+      run: mdbook build -d ../public/frc-programming frc-programming
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
