@@ -6,19 +6,15 @@ on:
    - main
 
 jobs:
-  checkout:
-    name: Checkout code
+  build:
+    name: Build and publish
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main + submodules
       uses: actions/checkout@v4
       with:
         submodules: true
-
-  setup-mdbook:
-    name: Setup mdbook
-    runs-on: ubuntu-latest
-    steps:
+        
     - name: Install mdbook
       uses: peaceiris/actions-mdbook@v1
       with:
@@ -29,21 +25,12 @@ jobs:
         repo: badboy/mdbook-mermaid
         tag: v0.12.6
 
-  setup-zola:
-    name: Setup zola
-    runs-on: ubuntu-latest
-    steps:
     - name: Install zola
       uses: jaxxstorm/action-install-gh-release@v1
       with:
         repo: getzola/zola
         tag: v0.17.2
 
-  build:
-    name: Build and publish
-    needs: [checkout, setup-mdbook, setup-zola]
-    runs-on: ubuntu-latest
-    steps:
     - name: Build personal
       run: zola build
     - name: Build frc-programming
