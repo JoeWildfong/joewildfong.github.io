@@ -10,31 +10,19 @@ jobs:
     name: Build and publish
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout main + submodules
+    - name: Checkout
       uses: actions/checkout@v4
-      with:
-        submodules: true
-        
-    - name: Install mdbook
-      uses: peaceiris/actions-mdbook@v1
-      with:
-        mdbook-version: '0.4.23'
-    - name: Install mdbook-mermaid
-      uses: jaxxstorm/action-install-gh-release@v1
-      with:
-        repo: badboy/mdbook-mermaid
-        tag: v0.12.6
-
     - name: Install zola
       uses: jaxxstorm/action-install-gh-release@v1
       with:
         repo: getzola/zola
         tag: v0.17.2
-
-    - name: Build personal
+    - name: Build
       run: zola build
-    - name: Build frc-programming
-      run: mdbook build frc-programming -d ../public/frc-programming
+
+    - name: Pull in frc-programming
+      run: curl -L https://github.com/JoeWildfong/frc-programming/releases/download/b1/frc-programming.tar.gz | tar -xzf - -C public
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
