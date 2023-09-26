@@ -17,6 +17,7 @@ jobs:
 
   setup-mdbook:
     name: Setup mdbook
+    runs-on: ubuntu-latest
     steps:
     - name: Install mdbook
       uses: peaceiris/actions-mdbook@v1
@@ -30,6 +31,7 @@ jobs:
 
   setup-zola:
     name: Setup zola
+    runs-on: ubuntu-latest
     steps:
     - name: Install zola
       uses: jaxxstorm/action-install-gh-release@v1
@@ -40,6 +42,7 @@ jobs:
   build:
     name: Build and publish
     needs: [checkout, setup-mdbook, setup-zola]
+    runs-on: ubuntu-latest
     steps:
     - name: Build personal
       run: zola build
