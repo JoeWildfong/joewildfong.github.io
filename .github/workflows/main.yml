@@ -18,16 +18,16 @@ jobs:
       uses: peaceiris/actions-mdbook@v1
       with:
         mdbook-version: 'latest'
-    - uses: actions-rs/toolchain@v1
+    - uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
-        toolchain: stable
-    - run: cargo install mdbook-mermaid
+        repo: https://github.com/badboy/mdbook-mermaid
+        tag: v0.12.6
     - name: Build zola
       uses: shalzz/zola-deploy-action@v0.17.2
       env:
         BUILD_ONLY: true
     - name: Build mdbook
-      run: mdbook build -d ../public/frc-programming frc-programming
+      run: cd frc-programming && mdbook build -d ../public/frc-programming
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
