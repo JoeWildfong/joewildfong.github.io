@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main + submodules
-      uses: actions/checkout@v3.0.0
+      uses: actions/checkout@v4
       with:
         submodules: true
     - name: Setup mdbook
       uses: peaceiris/actions-mdbook@v1
       with:
-        mdbook-version: 'latest'
-    - uses: jaxxstorm/action-install-gh-release@v1.10.0
+        mdbook-version: '0.4.23'
+    - uses: jaxxstorm/action-install-gh-release@v1
       with:
         repo: badboy/mdbook-mermaid
         tag: v0.12.6
@@ -27,7 +27,7 @@ jobs:
       env:
         BUILD_ONLY: true
     - name: Build mdbook
-      run: cd frc-programming && mdbook build -d ../public/frc-programming
+      run: mdbook build frc-programming
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
