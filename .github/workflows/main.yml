@@ -20,7 +20,7 @@ jobs:
         mdbook-version: 'latest'
     - uses: jaxxstorm/action-install-gh-release@v1.10.0
       with:
-        repo: https://github.com/badboy/mdbook-mermaid
+        repo: badboy/mdbook-mermaid
         tag: v0.12.6
     - name: Build zola
       uses: shalzz/zola-deploy-action@v0.17.2
