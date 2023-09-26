@@ -6,28 +6,45 @@ on:
    - main
 
 jobs:
-  build:
-    name: Publish site
+  checkout:
+    name: Checkout code
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main + submodules
       uses: actions/checkout@v4
       with:
         submodules: true
-    - name: Setup mdbook
+
+  setup-mdbook:
+    name: Setup mdbook
+    steps:
+    - name: Install mdbook
       uses: peaceiris/actions-mdbook@v1
       with:
         mdbook-version: '0.4.23'
-    - uses: jaxxstorm/action-install-gh-release@v1
+    - name: Install mdbook-mermaid
+      uses: jaxxstorm/action-install-gh-release@v1
       with:
         repo: badboy/mdbook-mermaid
         tag: v0.12.6
-    - name: Build zola
-      uses: shalzz/zola-deploy-action@v0.17.2
-      env:
-        BUILD_ONLY: true
-    - name: Build mdbook
-      run: mdbook build frc-programming
+
+  setup-zola:
+    name: Setup zola
+    steps:
+    - name: Install zola
+      uses: jaxxstorm/action-install-gh-release@v1
+      with:
+        repo: getzola/zola
+        tag: v0.17.2
+
+  build:
+    name: Build and publish
+    needs: [checkout, setup-mdbook, setup-zola]
+    steps:
+    - name: Build personal
+      run: zola build
+    - name: Build frc-programming
+      run: mdbook build frc-programming -d ../public/frc-programming
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
