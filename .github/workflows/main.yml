@@ -7,24 +7,12 @@ on:
 
 jobs:
   build:
-    name: Build and publish
+    name: Publish site
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Install zola
-      uses: jaxxstorm/action-install-gh-release@v1
-      with:
-        repo: getzola/zola
-        tag: v0.17.2
-    - name: Build
-      run: zola build
-
-    - name: Pull in frc-programming
-      run: curl -L https://github.com/JoeWildfong/frc-programming/releases/download/b1/frc-programming.tar.gz | tar -xzf - -C public
-
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./public
+    - name: Checkout main
+      uses: actions/checkout@v3.0.0
+    - name: Build and deploy
+      uses: shalzz/zola-deploy-action@v0.17.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
